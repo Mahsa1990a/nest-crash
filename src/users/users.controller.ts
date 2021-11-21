@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Query, NotFoundException, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query, NotFoundException, BadRequestException, InternalServerErrorException, HttpException, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
@@ -20,15 +20,17 @@ export class UsersController {
   @ApiOkResponse({type: User, description: "The user ..."})
   @ApiNotFoundResponse() //tells swagger it's possible to get 404 from this call
   @Get(':id') // : means it's a dynamic value
-  //param decorator
-  getUserById(@Param('id') id: string): User {
+  //param decorator        //auto parse ID(str to integer)
+  getUserById(@Param('id', ParseIntPipe) id: number): User { 
 
     // return {
       //   id: Number(id)
       // } //update after adding methods in service:
       // return this.usersSrvice.findById(Number(id));
 
-    const user = this.usersSrvice.findById(Number(id));
+    // const user = this.usersSrvice.findById(Number(id)); UPDATE after adding ParseIntPipe:
+    console.log("typeOf id => ", typeof id); //number
+    const user = this.usersSrvice.findById(id);
     if (!user) { //if user didn't exist
       throw new NotFoundException(); //OR:
       // throw new BadRequestException();OR:
