@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -9,13 +9,14 @@ import { UsersService } from './users.service';
 export class UsersController {
 
   constructor(private usersSrvice: UsersService) {}
-
+  @ApiOkResponse({type: User, isArray: true})
   @Get()
   getUsers(): User[] {
     // return [{id: 0}] //update after adding methods in service:
     return this.usersSrvice.findAll();
   }
 
+  @ApiOkResponse({type: User, description: "The user ..."})
   @Get(':id') // : means it's a dynamic value
   //param decorator
   getUserById(@Param('id') id: string): User {
