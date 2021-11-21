@@ -1,8 +1,10 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
+@ApiTags('users') //will seperate users in swagger
 @Controller('users')
 export class UsersController {
 
