@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -25,6 +25,8 @@ export class UsersController {
     return this.usersSrvice.findById(Number(id));
   }
 
+  //decorator for schema of response:
+  @ApiCreatedResponse({type: User})
   @Post()
   // @Body decorator like bodyParser
   createUser(@Body() body: CraeteUserDto): User { //body is gonna have name

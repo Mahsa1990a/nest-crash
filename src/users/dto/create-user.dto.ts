@@ -6,6 +6,6 @@ export class CraeteUserDto {
   @ApiProperty() //shows the schema
   name: string
 
-  @ApiProperty({required: false}) // ? & required: false => means age optional
-  age?: number
+  // @ApiProperty({required: false}) // ? & required: false => means age optional
+  // age?: number
 } 
