@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -10,10 +10,11 @@ export class UsersController {
 
   constructor(private usersSrvice: UsersService) {}
   @ApiOkResponse({type: User, isArray: true})
+  @ApiQuery({name: 'name', required: false}) //beside ? you need to add ApiQuery to required: false
   @Get()
-  getUsers(): User[] {
+  getUsers(@Query('name') name?: string): User[] { //localhost:3000/users?name=Mahsa&age=30& ... need to add Query
     // return [{id: 0}] //update after adding methods in service:
-    return this.usersSrvice.findAll();
+    return this.usersSrvice.findAll(name);
   }
 
   @ApiOkResponse({type: User, description: "The user ..."})
