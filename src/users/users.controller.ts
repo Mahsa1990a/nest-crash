@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, Body, Query, NotFoundException, BadRequestException, InternalServerErrorException, HttpException, HttpStatus, ParseIntPipe } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CraeteUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -45,6 +45,7 @@ export class UsersController {
 
   //decorator for schema of response:
   @ApiCreatedResponse({type: User})
+  @ApiBadRequestResponse()
   @Post()
   // @Body decorator like bodyParser
   createUser(@Body() body: CraeteUserDto): User { //body is gonna have name
